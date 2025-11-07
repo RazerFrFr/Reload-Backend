@@ -20,6 +20,8 @@
 
     "//": "If you want to use the backend on reboot, leave 3551 as the port",
     "port": 3551, 
+    "xmppPort": 5000,
+    "matchmakerPort": 100,
     
     "Api": {
       "bApiKey": "ur-api-key",
@@ -38,7 +40,7 @@
     },
 
     "//": "to add more gameserver on 'gameServerIP' add ip:port:playlist",
-    "matchmakerIP": "127.0.0.1:80",
+    "matchmakerIP": "127.0.0.1:100",
     "gameServerIP": ["127.0.0.1:7777:playlist_defaultsolo"],
     
     "//": "For 'BattlePassSeason' enter only the number of your season (from 2 to 20)",
@@ -47,7 +49,7 @@
 
     "//": "For 'bVersionJoinable' you can set a season that is also `9.10` and not just `9`",
     "bEnableOnlyOneVersionJoinable": false,
-    "bVersionJoinable": 2,
+    "bVersionJoinable": 1.11,
 
     "//": "If 'bUseAutoRotate' is enabled it will automatically rotate the item shop using the time you put in 'bRotateTime', you can select the season limit with 'bSeasonLimit' (please only do up to season 10, it might be a bit broken after!), 'bRotateTime' means what time the shop rotates (it is UTC and uses the 24 hour clock, not 12 hour), for 'bItemShopWebhook' you have to generate a webhook to your item shop channel and put the link here, you can select how many cosmetics are in daily: 'bDailyItemsAmount' and featured: 'bFeaturedItemsAmount'",
     "bUseAutoRotate": false,
@@ -91,7 +93,7 @@
     "//": "The Caldera Service is used for newer versions of the game! For see what season are now supported look CalderaService/guids.json and add the version on 'bGameVersion'",
     "bEnableCalderaService": false,
     "bGameVersion": "27.11",
-    "bCalderaServicePort": 5000,
+    "bCalderaServicePort": 6000,
 
     "//": "These are all the events you can add to the game, like the rift in the sky!",
     "bEnableGeodeEvent": false,

@@ -11,9 +11,8 @@ const log = require("../structs/log.js");
 const functions = require("../structs/functions.js");
 const User = require("../model/user.js");
 const Friends = require("../model/friends.js");
-const matchmaker = require("../matchmaker/matchmaker.js")
 
-const port = config.bEnableHTTPS ? 443 : 80;
+const port = config.bEnableHTTPS ? 443 : config.xmppPort;
 let wss;
 
 let httpsOptions;
@@ -29,11 +28,11 @@ if (config.bEnableHTTPS) {
     const httpsServer = https.createServer(httpsOptions, app);
     wss = new WebSocket({ server: httpsServer });
     httpsServer.listen(port, () => {
-        log.xmpp(`XMPP and Matchmaker started listening on port ${port} (SSL Enabled)`);
+        log.xmpp(`XMPP started listening on port ${port} (SSL Enabled)`);
     });
 } else {
     wss = new WebSocket({ server: app.listen(port) });
-    log.xmpp(`XMPP and Matchmaker started listening on port ${port} (SSL Disabled)`);
+    log.xmpp(`XMPP started listening on port ${port} (SSL Disabled)`);
 }
 
 global.xmppDomain = "prod.ol.epicgames.com";
@@ -71,9 +70,6 @@ wss.on('listening', () => {
 
 wss.on('connection', async (ws) => {
     ws.on('error', () => {});
-
-    // Start matchmaker if it's not connecting for xmpp.
-    if (ws.protocol.toLowerCase() != "xmpp") return matchmaker(ws);
 
     let joinedMUCs = [];
     let accountId = "";

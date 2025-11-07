@@ -126,6 +126,7 @@ if (config.bEnableHTTPS) {
     server = httpsServer.listen(PORT, () => {
         log.backend(`Backend started listening on port ${PORT} (SSL Enabled)`);
         require("./xmpp/xmpp.js");
+        require("./matchmaker/matchmaker.js");
         if (config.discord.bUseDiscordBot === true) {
             require("./DiscordBot");
         }
@@ -145,6 +146,7 @@ if (config.bEnableHTTPS) {
     server = app.listen(PORT, () => {
         log.backend(`Backend started listening on port ${PORT} (SSL Disabled)`);
         require("./xmpp/xmpp.js");
+        require("./matchmaker/matchmaker.js");
         if (config.discord.bUseDiscordBot === true) {
             require("./DiscordBot");
         }
@@ -262,10 +264,6 @@ if (config.Website.bUseWebsite === true) {
 app.use((req, res, next) => {
     const url = req.originalUrl;
     log.debug(`Missing endpoint: ${req.method} ${url} request port ${req.socket.localPort}`);
-    if (req.url.includes("..")) {
-        res.redirect("https://youtu.be/dQw4w9WgXcQ");
-        return;
-    }
     error.createError(
         "errors.com.epicgames.common.not_found", 
         "Sorry the resource you were trying to find could not be found", 

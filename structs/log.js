@@ -42,6 +42,16 @@ function xmpp(...args) {
     }
 }
 
+function matchmaker(...args) {
+    let msg = args.join(" ");
+    if (config.bEnableFormattedLogs) {
+        formatLog("\x1b[33m", "Reload Matchmaker Log", ...args);
+    } else {
+        console.log(`\x1b[33mReload Matchmaker Log\x1b[0m: ${msg}`);
+    }
+}
+
+
 function error(...args) {
     let msg = args.join(" ");
     if (config.bEnableFormattedLogs) {
@@ -113,6 +123,7 @@ module.exports = {
     backend,
     bot,
     xmpp,
+    matchmaker,
     error,
     debug,
     website,

@@ -6,12 +6,13 @@ const path = require("path");
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const functions = require("../structs/functions.js");
+const verifyFile = require("../structs/verifyFile.js");
 
 let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 app.get("/fortnite/api/cloudstorage/system", (req, res) => {
     const dir = path.join(__dirname, "..", "CloudStorage");
-
+    path.basename()
     let CloudFiles = [];
 
     fs.readdirSync(dir).forEach(name => {
@@ -37,18 +38,16 @@ app.get("/fortnite/api/cloudstorage/system", (req, res) => {
     res.json(CloudFiles);
 });
 
-app.get("/fortnite/api/cloudstorage/system/:file", (req, res) => {
-    if (req.params.file.includes("..")) return res.status(404).end();
-        if (req.params.file.includes("~")) return res.status(404).end();
+app.get("/fortnite/api/cloudstorage/system/:file", verifyFile, (req, res) => {
+    const file = path.join(__dirname, "..", "CloudStorage", req.params.file);
 
-    const file = path.join(__dirname, "..", "CloudStorage", path.basename(req.params.file));
-
+    res.setHeader('Content-Type', 'text/plain');
     if (fs.existsSync(file)) return res.status(200).send(fs.readFileSync(file));
 
-    res.status(200).end();
+    return res.status(404).send("File not found");
 });
 
-app.get("/fortnite/api/cloudstorage/user/*/:file", verifyToken, (req, res) => {
+app.get("/fortnite/api/cloudstorage/user/*/:file", verifyToken, verifyFile, (req, res) => {
     let clientSettingsPath = path.join(__dirname, "..", "ClientSettings", req.user.accountId);
     if (!fs.existsSync(clientSettingsPath)) fs.mkdirSync(clientSettingsPath);
 
